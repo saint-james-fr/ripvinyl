@@ -4,5 +4,8 @@
 
 import { application } from "./application"
 
+import EditReleaseController from "./edit_release_controller"
+application.register("edit-release", EditReleaseController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)

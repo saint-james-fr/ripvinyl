@@ -6,6 +6,19 @@ ruby "3.1.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
 
+# * Use Active Record to store sessions
+gem 'activerecord-session_store'
+
+# * calls to API Wrapper
+gem "discogs-wrapper"
+
+# * Cloudinary for image upload
+
+gem "cloudinary"
+
+# * handles pagination gracefully
+gem 'will_paginate', '~> 3.3'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 

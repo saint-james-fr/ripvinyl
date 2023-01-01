@@ -1,0 +1,10 @@
+<div class="container mt-5">
+  <h1>My Collection</h1>
+  <div class="digg_pagination mb-5 p-5">
+      <div class="page_info">
+        <%= page_entries_info @releases %>
+      </div>
+      <%= will_paginate @releases, :container => false %>
+  </div>
+  <%= render "releases/releases_gallery", releases: @releases %>
+</div>

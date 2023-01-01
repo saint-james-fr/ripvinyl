@@ -1,0 +1,23 @@
+#releases_index {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.release_card {
+
+}
+
+.cover-image img {
+  width: 260px;
+  height: 260px;
+  object-fit: cover;
+}
+
+.cta_ripped {
+  color: red
+}
+
+.ripped {
+  color:green
+}
