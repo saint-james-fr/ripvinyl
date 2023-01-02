@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: ripvinyl_production
-  username: ripvinyl
+  database: <%= ENV["RIPVINYL_DATABASE_NAME"] %>
+  url: <%= ENV["RIPVINYL_DATABASE_URL"] %>
+  username: <%= ENV["RIPVINYL_DATABASE_USERNAME"] %>
   password: <%= ENV["RIPVINYL_DATABASE_PASSWORD"] %>
