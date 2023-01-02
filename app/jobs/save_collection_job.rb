@@ -8,7 +8,7 @@ class SaveCollectionJob < ApplicationJob
     # For each release of releases parameter...
     releases.each do |release|
       # Create new reference in DB
-      Release.create({ id: release["id"], user: user, data: release }, without_protection: true)
+      Release.create(id: release["id"], user: user, data: release)
     end
     # collection? => true
     user.save_collection!
