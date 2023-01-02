@@ -1,9 +1,11 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid container">
-  <div>
-    <button class="btn btn-white me-5"><%= link_to "Ma collection", releases_path %></button>
-    <button class="btn btn-white"><%= link_to "Mes disques rippés", releases_path(ripped: "true")%></button>
-  </div>
+  <% if current_user %>
+    <div>
+      <button class="btn btn-white me-5"><%= link_to "Ma collection", releases_path %></button>
+      <button class="btn btn-white"><%= link_to "Mes disques rippés", releases_path(ripped: "true")%></button>
+    </div>
+  <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

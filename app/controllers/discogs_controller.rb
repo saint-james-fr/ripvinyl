@@ -3,6 +3,7 @@ class DiscogsController < ApplicationController
 
 
   def authenticate
+    return redirect_to root_path if current_user.access_token.present?
     @wrapper = Discogs::Wrapper.new("Ripped Vinyl")
     request_data = @wrapper.get_request_token(ENV['DISCOGS_API_CONSUMER'],ENV['DISCOGS_API_SECRET'], "http://127.0.0.1:3000/callback")
     session[:request_token] = request_data[:request_token]

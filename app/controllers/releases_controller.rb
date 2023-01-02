@@ -31,14 +31,6 @@ class ReleasesController < ApplicationController
     end
   end
 
-  def update
-    if @release.update(release_params)
-      format.html { redirect_to release_url(@release), notice: "Release was successfully updated." }
-    else
-      format.html { render :edit, status: :unprocessable_entity }
-    end
-  end
-
   private
 
   def set_release
