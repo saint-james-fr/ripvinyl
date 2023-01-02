@@ -3,15 +3,16 @@ class PagesController < ApplicationController
   include DiscogsRequests
 
   def home
-    # does user has a token?
+    # does user has a token? Go to '/authenticate'
     return redirect_to authenticate_path if current_user.access_token.nil?
 
-    # does user has a collection ?
+    # user already has a collection ? Go to '/releases'
     return redirect_to releases_path if current_user.collection?
 
-    # if not, fetch it
+    # Fetch the collection and save it, then go to '/releases'
     fetched_collection = FetchMoreCollectionJob.perform_now(current_user.id)
     SaveCollectionJob.perform_now(fetched_collection, current_user.id)
+    session[:sync] = true
     redirect_to releases_path
   end
 

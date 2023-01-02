@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
   resources :releases, only: %i[ index edit update] do
     member do
       get :ripped
     end
   end
-  devise_for :users
 
   root to: "pages#home"
 

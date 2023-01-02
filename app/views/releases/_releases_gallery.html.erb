@@ -1,8 +1,9 @@
 <div id="releases_index">
     <% releases.each do |release| %>
       <div class="release_card" data-controller="edit-release">
-        <%= link_to direct_url_or_rebuild(release), target: '_blank' do %>
-          <div class="cover-image mb-2">
+        <%= link_to release.direct_url, target: '_blank' do %>
+          <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
+            <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>
             <% if release.photo? %>
               <%= cl_image_tag release.photo.key %>
             <% else %>
@@ -10,11 +11,11 @@
             <% end %>
           </div>
         <% end %>
-        <div class ="d-flex justify-content-between align-items-center">
-        <h2>
-          <%= release.data["basic_information"]["title"] %>
-        </h2>
-        <button class="cta_rip <%= release.ripped == true ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped == true ? 'true' : "false" %> data-ref=<%= release.id %>><i class="fa-solid fa-file"></i></button>
+        <div class ="d-flex justify-content-between align-items-start">
+          <h2>
+            <%= release.data["basic_information"]["title"] %>
+          </h2>
+          <button class="cta_rip <%= release.ripped? ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped == true ? 'true' : "false" %> data-ref=<%= release.id %>><i class="fa-solid fa-file"></i></button>
         </div>
         <h4>
           <% release.data["basic_information"]["artists"].each_with_index do |artist, index| %>

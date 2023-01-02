@@ -1,19 +1,16 @@
 class SaveCollectionJob < ApplicationJob
   queue_as :default
 
-  def perform(collection, id)
+  def perform(releases, user_id)
     puts '****** STARTS JOB *******'
-    # retrieve user with id
-    user = User.find(id)
-    wrapper = user.authentify_wrapper(user.access_token)
-    # For each release of collection parameter
-    collection.each do |release|
-      # Create new reference in DB OR find if it exists
-      item = Release.find_or_create_by(id: release["id"], user: user)
-      # Update reference with data
-      item.update(data: release) if item.data.nil?
+    # retrieves user with user_id
+    user = User.find(user_id)
+    # For each release of releases parameter...
+    releases.each do |release|
+      # Create new reference in DB
+      Release.create(user_id: release["id"], user: user, data: release)
     end
-    # Update status of collection? boolean
+    # collection? => true
     user.save_collection!
     puts '****** JOB DONE *******'
     puts "#{user.username} collection saved? == #{user.collection?}"

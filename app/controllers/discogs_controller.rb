@@ -22,7 +22,6 @@ class DiscogsController < ApplicationController
     user.access_token = session[:access_token]
     @wrapper = user.authentify_wrapper(session[:access_token])
     user.update_username
-    raise
     redirect_to root_path
   end
 

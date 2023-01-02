@@ -2,6 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="edit-release"
 export default class extends Controller {
+
+  static targets = [ "image", "overlay" ]
   connect() {
   }
 
@@ -18,7 +20,8 @@ export default class extends Controller {
     })
     // changes the data-ripped attribute to the new value
     e.currentTarget.setAttribute('data-ripped', ripped)
-
     e.currentTarget.classList.toggle('ripped')
+    this.imageTarget.classList.toggle('image-ripped')
+    this.overlayTarget.classList.toggle('overlay')
   }
 }
