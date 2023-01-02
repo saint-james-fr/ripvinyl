@@ -73,10 +73,6 @@ class Release < ApplicationRecord
     update(direct_url: rebuilt_url)
   end
 
-  def photo?
-    photo.attached?
-  end
-
   def ripped?
     ripped.present?
   end
@@ -98,7 +94,8 @@ class Release < ApplicationRecord
   end
 
   def download_photo
-    return unless data.nil? || photo?
+    # exit if there is no data or if there is already a photo
+    return if data.nil? || photo.attached?
 
     url = data["basic_information"]["cover_image"]
     file = URI.open(url)
