@@ -5,13 +5,13 @@
 }
 
 .release_card {
-  padding-top: 28px;
-  border-top: 1px solid dimgray;
+  padding-top: 1.75rem;
+  border-top: 0.0625rem solid dimgray;
 }
 
 .cover-image {
-  width: 260px;
-  height: 260px;
+  width: 16.25rem;
+  height: 16.25rem;
   position: relative
 }
 
@@ -32,8 +32,8 @@
   border:none;
   background: transparent;
   position: relative;
-  padding-right: 5px;
-  bottom: 8px;
+  padding-right: 0.3125rem;
+  bottom: 0.5rem;
 
   :hover {
     transition: all 0.2s ease-in-out;
