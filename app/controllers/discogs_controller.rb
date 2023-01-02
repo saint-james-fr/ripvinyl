@@ -4,7 +4,7 @@ class DiscogsController < ApplicationController
 
   def authenticate
     @wrapper = Discogs::Wrapper.new("Ripped Vinyl")
-    request_data = @wrapper.get_request_token(ENV['DISCOGS_API_CONSUMER'],ENV['DISCOGS_API_SECRET'], "#{ENV['LOCAL_CALLBACK']}#{ENV['PRODUCTION_CALLBACK']}/callback")
+    request_data = @wrapper.get_request_token(ENV['DISCOGS_API_CONSUMER'],ENV['DISCOGS_API_SECRET'], "#{ENV['CALLBACK']}/callback")
     session[:request_token] = request_data[:request_token]
     redirect_to request_data[:authorize_url], allow_other_host: true
   end

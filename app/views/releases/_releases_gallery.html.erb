@@ -4,7 +4,7 @@
       <%= link_to release.direct_url, target: '_blank' do %>
         <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
           <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>
-          <% if release.photo? %>
+          <% if release.photo.attached? %>
             <%= cl_image_tag release.photo.key %>
           <% else %>
             <%= image_tag release.data["basic_information"]["cover_image"] %>
