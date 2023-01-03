@@ -14,32 +14,6 @@ class Release < ApplicationRecord
   scope :sorted_by_date_added, -> { order('date_added DESC') }
   scope :filtered_by_ripped, -> {where(ripped: true)}
 
-  # scope :sorted_by_artist, -> { order("data->>'artist' ASC") }
-  # scope :sorted_by_title, -> { order("data->>'title' ASC") }
-  # scope :sorted_by_label, -> { order("data->>'label' ASC") }
-  # scope :sorted_by_format, -> { order("data->>'format' ASC") }
-  # scope :sorted_by_country, -> { order("data->>'country' ASC") }
-  # scope :sorted_by_genre, -> { order("data->>'genre' ASC") }
-  # scope :sorted_by_style, -> { order("data->>'style' ASC") }
-  # scope :sorted_by_catno, -> { order("data->>'catno' ASC") }
-  # scope :sorted_by_type, -> { order("data->>'type' ASC") }
-  # scope :sorted_by_status, -> { order("data->>'status' ASC") }
-  # scope :sorted_by_year, -> { order("data->>'year' ASC") }
-  # scope :sorted_by_rating, -> { order("data->>'rating' ASC") }
-  # scope :sorted_by_notes, -> { order("data->>'notes' ASC") }
-  # scope :sorted_by_master_id, -> { order("data->>'master_id' ASC") }
-  # scope :sorted_by_instance_id, -> { order("data->>'instance_id' ASC") }
-  # scope :sorted_by_resource_url, -> { order("data->>'resource_url' ASC") }
-  # scope :sorted_by_uri, -> { order("data->>'uri' ASC") }
-  # scope :sorted_by_thumb, -> { order("data->>'thumb' ASC") }
-  # scope :sorted_by_cover_image, -> { order("data->>'cover_image' ASC") }
-  # scope :sorted_by_community, -> { order("data->>'community' ASC") }
-  # scope :sorted_by_data_quality, -> { order("data->>'data_quality' ASC") }
-  # scope :sorted_by_format_quantity, -> { order("data->>'format_quantity' ASC") }
-  # scope :sorted_by_id, -> { order("data->>'id' ASC") }
-  # scope :sorted_by_master_url, -> { order("data->>'master_url' ASC") }
-  # scope :sorted_by_title,
-
   self.per_page = 150
 
   def styles
