@@ -9,11 +9,12 @@ class ReleasesController < ApplicationController
 
     # filter different params
     @releases = Release.sorted_by_date_added
-    @releases = @releases.filtered_by_ripped if params[:ripped].present?
-    #paginate
+    @releases = @releases.filtered_by_ripped if params[:ripped] == "true"
+    @releases = @releases.filtered_by_style(params[:style]) if params[:style].present?
+    # paginate
     @releases = @releases.page(params[:page])
-    #
-    # all.sort_by {|el| el.data["date_added"].to_time}
+    @most_collected_styles = Release.most_collected_styles
+
   end
 
   def ripped

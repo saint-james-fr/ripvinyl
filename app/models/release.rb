@@ -11,7 +11,7 @@ class Release < ApplicationRecord
   after_create :download_photo
 
   scope :ripped, -> { where(ripped: true) }
-  scope :sorted_by_date_added, -> { order(:date_added).reverse_order}
+  scope :sorted_by_date_added, -> { order('date_added DESC') }
   scope :filtered_by_ripped, -> {where(ripped: true)}
 
   # scope :sorted_by_artist, -> { order("data->>'artist' ASC") }
@@ -41,6 +41,26 @@ class Release < ApplicationRecord
   # scope :sorted_by_title,
 
   self.per_page = 150
+
+  def styles
+    data["basic_information"]["styles"]
+  end
+
+  def self.filtered_by_style(style)
+    where(id: all.select{ |release| release.styles.include? style })
+  end
+
+  def self.most_collected_styles
+    styles = all.map { |release| release.styles }
+    h = {}
+    styles.each do |array|
+      array.each do |style|
+        h[style].nil? ? h[style] = 1 : h[style] += 1
+      end
+    end
+    return h.sort_by {|k, v| v}.reverse.to_h
+  end
+
 
   def set_date_added
     update(date_added: data["date_added"].to_time)

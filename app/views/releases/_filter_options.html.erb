@@ -1,0 +1,12 @@
+<div class="filters">
+<%= link_to "All", releases_path %>
+<% most_collected_styles.each do |key, value| %>
+  <% if value > 5 %>
+    <% if params[:style] == key %>
+      <%= link_to "#{key} (#{value})", releases_path(style: key), class: "selected_filter" %>
+      <% else %>
+      <%= link_to "#{key} (#{value})", releases_path(style: key) %>
+      <% end %>
+  <% end %>
+<% end %>
+</div>

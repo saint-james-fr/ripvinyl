@@ -31,6 +31,6 @@ class DiscogsController < ApplicationController
 
     @collection = request_collection(wrapper, username)
 
-  render json: @collection
+    render json: @collection
   end
 end
