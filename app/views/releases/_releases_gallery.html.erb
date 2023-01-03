@@ -1,7 +1,7 @@
 <div id="releases_index">
   <% releases.each do |release| %>
     <div class="release_card" data-controller="edit-release">
-      <%= link_to release.direct_url, target: '_blank' do %>
+      <%= link_to "https://www.discogs.com/release/#{release.id}", target: '_blank' do %>
         <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
           <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>
           <% if release.photo.attached? %>

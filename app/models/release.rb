@@ -7,7 +7,6 @@ class Release < ApplicationRecord
 
   after_create :set_date_added
   after_create :update_ripped_based_on_discogs
-  after_create :set_url
   after_create :download_photo
 
   scope :ripped, -> { where(ripped: true) }
@@ -40,32 +39,6 @@ class Release < ApplicationRecord
     update(date_added: data["date_added"].to_time)
   end
 
-  # Take care of URL
-
-  def set_url
-    rebuild_url if direct_url == "#" || direct_url.nil?
-  end
-
-  def rebuild_url
-    # regex to remove parenthesis and add hyphens
-    first_artist_name = data["basic_information"]["artists"].first["name"].gsub(/\s\(\d\)/,'').gsub(" ", "-")
-    # regex to join artists with second artist eventually or title
-    first_join = data["basic_information"]["artists"].first["join"].gsub(" ", "-")
-    first_join == '' ? first_join = '-' : first_join + '-'
-    artists_infos = first_artist_name + first_join
-    # if there is a second artist, add it to the string
-    if data["basic_information"]["artists"] == 2
-      second_artist_name = data["basic_information"]["artists"][1]["name"].gsub(/\s\(\d\)/, '').gsub(" ", "-")
-      second_join = data["basic_information"]["artists"][1]["join"].gsub(" ", "-")
-      second_join == '' ? second_join = '-' : second_join += '-'
-      artists_infos += (second_artist_name + second_join)
-    end
-    # regex to format title
-    title = data["basic_information"]["title"].gsub(" ", "-").gsub("/", "").gsub('--','-')
-
-    rebuilt_url = "https://www.discogs.com/release/#{id}-#{artists_infos}#{title}"
-    update(direct_url: rebuilt_url)
-  end
 
   def ripped?
     ripped.present?
