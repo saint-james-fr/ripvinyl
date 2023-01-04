@@ -14,6 +14,6 @@ export default class extends Controller {
     const url = "/update_collection"
     fetch(url, {
     method: 'GET',
-    })
+    }).then(response => location.reload())
   }
 }

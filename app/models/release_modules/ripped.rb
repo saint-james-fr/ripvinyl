@@ -7,6 +7,10 @@ module Ripped
     ripped.present?
   end
 
+  def check_if_ripped_on_discogs
+    update(ripped: true) if ripped_on_discogs?
+  end
+
   def ripped_on_discogs?
     # is there data? is there notes? is there a field for 'RIP notes' and is it empty?
     return false if data.nil? || data["notes"].nil? || data["notes"].select {|el| el["field_id"] == 3}.empty?

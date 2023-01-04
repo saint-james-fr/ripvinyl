@@ -11,7 +11,7 @@ class Release < ApplicationRecord
   has_one_attached :photo
 
   after_create :add_date
-  after_create :update_ripped_based_on_discogs
+  after_create :check_if_ripped_on_discogs
   after_create :download_photo
 
   scope :sorted_by_date_added, -> { order('date_added DESC') }

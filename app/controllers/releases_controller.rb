@@ -30,7 +30,9 @@ class ReleasesController < ApplicationController
     removed_items = ids.reject { |id| fetched_collection.any? { |release| release["id"] == id } }
     # Delete the removed releases from DB
     Release.where(id: removed_items).destroy_all if removed_items.any?
-    redirect_to releases_path
+    respond_to do |format|
+      format.html { redirect_to releases_path }
+    end
   end
 
   def ripped
