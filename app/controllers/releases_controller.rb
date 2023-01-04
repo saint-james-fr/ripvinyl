@@ -4,8 +4,6 @@ class ReleasesController < ApplicationController
   def index
     # does user has a collection ?
     return redirect_to authenticate_path if current_user.collection.nil?
-    # is the collection synced?
-    # sync_collection unless session[:sync] == true
 
     # filter different params
     @releases = Release.sorted_by_date_added
@@ -15,6 +13,24 @@ class ReleasesController < ApplicationController
     @releases = @releases.page(params[:page])
     @most_collected_styles = Release.most_collected_styles
 
+  end
+
+  def update_collection
+    # TODO: I could not pass the current_user variable as I'm fetching it, so I had to pass the id directly
+    user = User.find(1)
+    # Fetch collection from Discogs
+    fetched_collection = FetchMoreCollectionJob.perform_now(user.id)
+    # Get array of releases's id already in DB
+    ids = Release.where(user: user).pluck(:id)
+    # Reject existing releases from fetched collection
+    new_items = fetched_collection.reject { |release| ids.include?(release["id"]) }
+    # Save the new releases in DB
+    SaveCollectionJob.perform_now(new_items, user.id) if new_items.any?
+    # Get removed releases
+    removed_items = ids.reject { |id| fetched_collection.any? { |release| release["id"] == id } }
+    # Delete the removed releases from DB
+    Release.where(id: removed_items).destroy_all if removed_items.any?
+    redirect_to releases_path
   end
 
   def ripped
@@ -43,12 +59,4 @@ class ReleasesController < ApplicationController
     params.require(:release).permit(:data, :user_id, :ripped)
   end
 
-  def sync_collection
-    # compare and check if new items have been added to the collection
-    fetched_collection = FetchMoreCollectionJob.perform_now(current_user.id)
-    return if current_user.collection.length >= fetched_collection.length
-    # SaveCollectionJob.perform_now(fetched_collection, current_user.id)
-    flash.alert = "consider syncing your collection"
-    session[:sync] = true
-  end
 end

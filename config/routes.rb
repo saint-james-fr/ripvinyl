@@ -2,13 +2,15 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
-  resources :releases, only: %i[ index edit update] do
+  resources :releases, only: %i[ index edit] do
     member do
       get :ripped
     end
   end
 
-  root to: "pages#home"
+  get 'update_collection', to: 'releases#update_collection'
+
+  root to: 'pages#home'
 
   get 'error', to: 'pages#error'
   get 'authenticate', to: 'discogs#authenticate'

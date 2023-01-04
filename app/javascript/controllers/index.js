@@ -7,8 +7,8 @@ import { application } from "./application"
 import EditReleaseController from "./edit_release_controller"
 application.register("edit-release", EditReleaseController)
 
-import GenresTomSelectController from "./genres_tom_select_controller"
-application.register("genres-tom-select", GenresTomSelectController)
-
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import UpdateCollectionController from "./update_collection_controller"
+application.register("update-collection", UpdateCollectionController)

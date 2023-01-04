@@ -14,7 +14,7 @@ class FetchMoreCollectionJob < ApplicationJob
     data = pages.map do |page_number|
       wrapper.get_user_collection(user.username, { per_page: 500, page: page_number }).releases
     end
-    # Transforms this array of arrays into one array and assigns it to collection
+    # Transforms this array of arrays into one array and returns it
     return data.reduce([], :concat)
   end
 end

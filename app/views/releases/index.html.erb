@@ -1,4 +1,5 @@
 <div class="container mt-5">
+  <%= render "releases/loading_overlay" %>
   <div id="anchor_page_up"></div>
   <%= render "releases/filter_options", most_collected_styles: @most_collected_styles%>
   <%= render "releases/pagination", releases: @releases%>

@@ -12,7 +12,6 @@ class PagesController < ApplicationController
     # Fetch the collection and save it, then go to '/releases'
     fetched_collection = FetchMoreCollectionJob.perform_now(current_user.id)
     SaveCollectionJob.perform_now(fetched_collection, current_user.id)
-    session[:sync] = true
     redirect_to releases_path
   end
 
