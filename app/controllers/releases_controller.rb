@@ -9,7 +9,7 @@ class ReleasesController < ApplicationController
 
     # filter different params
     @releases = Release.sorted_by_date_added
-    @releases = @releases.filtered_by_ripped if params[:ripped] == "true"
+    @releases = @releases.ripped if params[:ripped] == "true"
     @releases = @releases.filtered_by_style(params[:style]) if params[:style].present?
     # paginate
     @releases = @releases.page(params[:page])
@@ -18,12 +18,13 @@ class ReleasesController < ApplicationController
   end
 
   def ripped
-    @release.ripped ? change_rip = false : change_rip = true
-    if @release.update(ripped: change_rip)
-      wrapper  = current_user.authentify_wrapper(current_user.access_token)
-      if change_rip == true
+    new_ripped = !@release.ripped
+    if @release.update(ripped: new_ripped)
+      wrapper = current_user.authentify_wrapper(current_user.access_token)
+      case new_ripped
+      when true
         @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", {value: 'RIP ok'})
-      elsif change_rip == false
+      when false
         @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", {value: ''})
       end
       redirect_to releases_path
