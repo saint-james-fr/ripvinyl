@@ -1,6 +1,4 @@
 require 'open-uri'
-require 'release_modules/ripped'
-require 'release_modules/styles'
 
 class Release < ApplicationRecord
   include Styles
