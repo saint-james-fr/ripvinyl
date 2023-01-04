@@ -1,33 +1,10 @@
 class User < ApplicationRecord
+  include Token
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :releases
-
-  encrypts :oauth_token
-  encrypts :oauth_token_secret
-  encrypts :oauth_token_consumer
-
-  # OAuth::AccessToken persistance for jobs
-
-  def access_token=(value)
-    update(oauth_token: value.token)
-    update(oauth_token_secret: value.secret)
-    # Serialize Consumer OAuth Object
-    update(oauth_token_consumer: value.consumer.to_json)
-  end
-
-  def access_token
-    return nil if oauth_token.nil? || oauth_token.empty?
-
-    # Reserialize data
-    consumer_data = JSON.parse(self.oauth_token_consumer)
-    # Recreates consumer OAuth objects
-    consumer = OAuth::Consumer.new(consumer_data["key"], consumer_data["secret"], consumer_data["options"])
-    # Return Access Token
-    OAuth::AccessToken.new(consumer, self.oauth_token, self.oauth_token_secret)
-  end
 
   # Discogs::Wrapper
 
@@ -47,7 +24,7 @@ class User < ApplicationRecord
     update(username: @wrapper.get_identity.username) unless username? == true
   end
 
-  #
+  # Collection
 
   def save_collection!
     update(collection?: true)
