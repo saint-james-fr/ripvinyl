@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'update_collection', to: 'releases#update_collection'
+  post 'update_collection', to: 'releases#update_collection'
   get 'four_to_the_floor', to: 'releases#four_to_the_floor'
 
   root to: 'pages#home'
@@ -17,8 +17,5 @@ Rails.application.routes.draw do
   get 'authenticate', to: 'discogs#authenticate'
   get 'callback', to: 'discogs#callback'
   get 'collection', to: 'discogs#collection'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
 end

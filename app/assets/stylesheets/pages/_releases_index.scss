@@ -1,6 +1,6 @@
 #releases_index {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
 
@@ -63,10 +63,15 @@
   opacity: 0.7;
 }
 
+.filters {
+  margin-bottom: 19px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid;
+}
 
 .filters a {
   background-color: #fff;
-  padding: 0.3125rem;
+  padding: 0.4375rem;
   border-radius: 0.5rem;
   display: inline-block;
   margin-top: 0.1875rem;
@@ -74,9 +79,15 @@
 }
 
 .filters a:hover {
-  background-color: rgb(252, 239, 136);
+  background-color: #9963c0;
+  color:white!important;
 }
 
 .filters .selected_filter {
-  background-color: rgb(252, 239, 136);
+  background-color: #9963c0;
+  color:white!important;
+}
+
+.items-row-buttons {
+  border-top: 1px solid black
 }

@@ -1,7 +1,6 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
-}
+  background: #e0d8ee}
 
 .navbar-lewagon .navbar-collapse {
   flex-grow: 0;
@@ -15,9 +14,13 @@
   cursor: pointer;
 }
 
+#navbarDropdown {
+  mix-blend-mode: multiply;
+  filter: sepia(1);
+}
 
 mark {
-  --mark-color: #f8db75;
+  --mark-color: #9963c0;
   --mark-skew: 0.25em;
   --mark-height: 1.3em;
   --mark-overlap: 0.3em;
@@ -56,17 +59,23 @@ mark {
   color: inherit;
   transition: 0.1s ease-in-out;
   font-weight: bolder;
+
+  .btn {
+    color: white!important;
+  }
 }
 
 
 
 mark:hover {
-  color:white
+  .btn {
+    color: #e0d8ee!important;
+  }
 }
 
 .whitey {
   display: inline-block;
-  width: 6px;
+  width: 10px;
 }
 
 
