@@ -10,6 +10,9 @@ application.register("edit-release", EditReleaseController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import HomeController from "./home_controller"
+application.register("home", HomeController)
+
 import UpdateCollectionController from "./update_collection_controller"
 application.register("update-collection", UpdateCollectionController)
 

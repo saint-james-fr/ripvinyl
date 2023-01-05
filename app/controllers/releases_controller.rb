@@ -1,10 +1,8 @@
 class ReleasesController < ApplicationController
   before_action :set_release, only: %i[edit update ripped]
+  before_action :clause_guard_collection, only: %i[index four_to_the_floor]
 
   def index
-    # does user has a collection ?
-    return redirect_to authenticate_path if current_user.collection.nil?
-
     # filter different params
     @releases = Release.sorted_by_date_added
     @releases = @releases.ripped if params[:ripped] == "true"
@@ -15,9 +13,15 @@ class ReleasesController < ApplicationController
 
   end
 
+  def four_to_the_floor
+    ids = Release.sorted_by_date_added.sample(4).pluck(:id)
+    @releases = Release.where(id: ids)
+    @releases = @releases.page(params[:page])
+    @most_collected_styles = []
+  end
+
   def update_collection
-    # TODO: I could not pass the current_user variable as I'm fetching it, so I had to pass the id directly
-    user = User.find(1)
+    user = User.find(params[:id])
     # Fetch collection from Discogs
     fetched_collection = FetchMoreCollectionJob.perform_now(user.id)
     # Get array of releases's id already in DB
@@ -52,6 +56,10 @@ class ReleasesController < ApplicationController
   end
 
   private
+
+  def clause_guard_collection
+    return redirect_to authenticate_path if current_user.collection.nil?
+  end
 
   def set_release
     @release = Release.find(params[:id])

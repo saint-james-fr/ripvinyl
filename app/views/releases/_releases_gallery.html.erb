@@ -1,14 +1,14 @@
 <div data-controller="width-buttons">
     <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
       <div>Items par rangées:</div>
-        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#twoRows"> 2 </button>
-        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#fourRows"> 4 </button>
-        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#fiveRows"> 5 </button>
-        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#eightRows"> 8 </button>
+        <button class="btn btn-info p-2 m-2" data-action="click->width-buttons#twoRows"> 2 </button>
+        <button class="btn btn-info p-2 m-2" data-action="click->width-buttons#fourRows"> 4 </button>
+        <button class="btn btn-info p-2 m-2" data-action="click->width-buttons#fiveRows"> 5 </button>
+        <button class="btn btn-info p-2 m-2" data-action="click->width-buttons#eightRows"> 8 </button>
       </div>
   <div id="releases_index" data-width-buttons-target="releasesIndex">
       <% releases.each do |release| %>
-        <div class="release_card" data-controller="edit-release">
+        <div class="release_card" data-controller="edit-release" data-width-buttons-target="releaseCard">
           <%= link_to "https://www.discogs.com/release/#{release.id}", target: '_blank' do %>
             <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
               <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>

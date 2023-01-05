@@ -9,6 +9,7 @@ class PagesController < ApplicationController
     # user already has a collection ? Go to '/releases'
     return redirect_to releases_path if current_user.collection?
 
+    render "pages/home"
     # Fetch the collection and save it, then go to '/releases'
     fetched_collection = FetchMoreCollectionJob.perform_now(current_user.id)
     SaveCollectionJob.perform_now(fetched_collection, current_user.id)
