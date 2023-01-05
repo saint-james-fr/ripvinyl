@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import UpdateCollectionController from "./update_collection_controller"
 application.register("update-collection", UpdateCollectionController)
+
+import WidthButtonsController from "./width_buttons_controller"
+application.register("width-buttons", WidthButtonsController)

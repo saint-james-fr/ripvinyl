@@ -1,18 +1,16 @@
 #releases_index {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
 .release_card {
-  padding-top: 1.75rem;
-  border-top: 0.0625rem solid dimgray;
-  width: min-content;
+  width: 100%;
 }
 
 .cover-image {
-  width: 14.375rem;
-  height: 14.375rem;
+  width: auto;
+  aspect-ratio: 1/1;
   position: relative
 }
 

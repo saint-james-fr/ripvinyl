@@ -1,30 +1,39 @@
-<div id="releases_index">
-  <% releases.each do |release| %>
-    <div class="release_card" data-controller="edit-release">
-      <%= link_to "https://www.discogs.com/release/#{release.id}", target: '_blank' do %>
-        <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
-          <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>
-          <% if release.photo.attached? %>
-            <%= cl_image_tag release.photo.key %>
-          <% else %>
-            <%= image_tag release.data["basic_information"]["cover_image"] %>
+<div data-controller="width-buttons">
+    <div class="d-flex justify-content-center align-items-center mb-3 mt-2">
+      <div>Items par rangées:</div>
+        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#twoRows"> 2 </button>
+        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#fourRows"> 4 </button>
+        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#fiveRows"> 5 </button>
+        <button class="btn btn-primary p-2 m-2" data-action="click->width-buttons#eightRows"> 8 </button>
+      </div>
+  <div id="releases_index" data-width-buttons-target="releasesIndex">
+      <% releases.each do |release| %>
+        <div class="release_card" data-controller="edit-release">
+          <%= link_to "https://www.discogs.com/release/#{release.id}", target: '_blank' do %>
+            <div data-edit-release-target="image" class="cover-image mb-2 <%= release.ripped? ? 'image-ripped' : "" %>">
+              <div data-edit-release-target="overlay" class="<%= release.ripped? ? 'overlay' : "" %>"></div>
+              <% if release.photo.attached? %>
+                <%= cl_image_tag release.photo.key %>
+              <% else %>
+                <%= image_tag release.data["basic_information"]["cover_image"] %>
+              <% end %>
+            </div>
           <% end %>
+          <div class ="d-flex justify-content-between align-items-start">
+            <h2>
+              <%= release.data["basic_information"]["title"] %>
+            </h2>
+            <button class="cta_rip <%= release.ripped? ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped == true ? 'true' : "false" %> data-ref=<%= release.id %>><i class="fa-solid fa-file"></i></button>
+          </div>
+          <h4>
+            <% release.data["basic_information"]["artists"].each_with_index do |artist, index| %>
+              <%= artist["name"] %>
+              <% if release.data["basic_information"]["artists"].length > 1 && index + 1 < release.data["basic_information"]["artists"].length%>
+              •
+              <% end %>
+            <% end %>
+          </h4>
         </div>
       <% end %>
-      <div class ="d-flex justify-content-between align-items-start">
-        <h2>
-          <%= release.data["basic_information"]["title"] %>
-        </h2>
-        <button class="cta_rip <%= release.ripped? ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped == true ? 'true' : "false" %> data-ref=<%= release.id %>><i class="fa-solid fa-file"></i></button>
-      </div>
-      <h4>
-        <% release.data["basic_information"]["artists"].each_with_index do |artist, index| %>
-          <%= artist["name"] %>
-          <% if release.data["basic_information"]["artists"].length > 1 && index + 1 < release.data["basic_information"]["artists"].length%>
-          •
-          <% end %>
-        <% end %>
-      </h4>
-    </div>
-  <% end %>
+  </div>
 </div>
