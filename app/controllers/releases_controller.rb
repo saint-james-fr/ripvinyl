@@ -2,6 +2,8 @@ class ReleasesController < ApplicationController
   before_action :set_release, only: %i[edit update ripped]
   before_action :clause_guard_collection, only: %i[index four_to_the_floor]
 
+  include DiscogsRequests
+
   def index
     # filter different params
     @releases = Release.sorted_by_date_added
@@ -24,16 +26,15 @@ class ReleasesController < ApplicationController
     user = User.find(params[:id])
     # Fetch collection from Discogs
     fetched_collection = FetchMoreCollectionJob.perform_now(user.id)
-    # Get array of releases's id already in DB
+    # Get array of ID from releases already in DB
     ids = Release.where(user: user).pluck(:id)
-    # Reject existing releases from fetched collection
-    new_items = fetched_collection.reject { |release| ids.include?(release["id"]) }
-    # Save the new releases in DB
-    SaveCollectionJob.perform_now(new_items, user.id) if new_items.any?
-    # Get removed releases
-    removed_items = ids.reject { |id| fetched_collection.any? { |release| release["id"] == id } }
-    # Delete the removed releases from DB
-    Release.where(id: removed_items).destroy_all if removed_items.any?
+    # 1. get new releases and save them
+    save_added_releases(user, fetched_collection, ids)
+    # 2. Get removed releases and delete them
+    remove_removed_releases(fetched_collection, ids)
+    # 3. Update releases in DB from their discogs status
+    update_ripped_releases(fetched_collection, user)
+
     respond_to do |format|
       format.html { redirect_to releases_path }
     end
@@ -56,6 +57,22 @@ class ReleasesController < ApplicationController
   end
 
   private
+
+  def save_added_releases(user, fetched_collection, ids)
+    new_items = fetched_collection.reject { |release| ids.include?(release["id"]) }
+    SaveCollectionJob.perform_now(new_items, user.id) if new_items.any?
+  end
+
+  def remove_removed_releases(fetched_collection, ids)
+    removed_items = ids.reject { |id| fetched_collection.any? { |release| release["id"] == id } }
+    Release.where(id: removed_items).destroy_all if removed_items.any?
+  end
+
+  def update_ripped_releases(fetched_collection, user)
+    fetched_collection.each do |release|
+      Release.where(user: user).find(release["id"]).update(ripped: true) if ripped_on_discogs_bis?(release)
+    end
+  end
 
   def clause_guard_collection
     return redirect_to authenticate_path if current_user.collection.nil?
