@@ -25,6 +25,7 @@ export default class extends Controller {
     this.overlayTarget.classList.toggle('overlay')
     if (this.ripLaterButtonTarget.classList.contains('rip_later_orange')) {
     this.ripLaterButtonTarget.classList.toggle('rip_later_orange')
+    this.ripLaterButtonTarget.classList.add('d-none')
     }
   }
 
