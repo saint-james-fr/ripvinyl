@@ -19,7 +19,7 @@
               <% end %>
             </div>
           <% end %>
-          <button data-edit-release-target="ripLaterButton" class="cta_rip_later <%= release.rip_later? ? 'rip_later_orange' : "" %>" data-action="click->edit-release#ripLater" data-rip-later=<%= release.rip_later?.to_s %> data-ref=<%= release.id %>><i class="fa-solid fa-clock"></i></button>
+          <button data-edit-release-target="ripLaterButton" class="cta_rip_later <%= release.rip_later? ? 'rip_later_orange' : "" %> <%= release.ripped? ? 'd-none' : "" %>" data-action="click->edit-release#ripLater" data-rip-later=<%= release.rip_later?.to_s %> data-ref=<%= release.id %>><i class="fa-solid fa-clock"></i></button>
           <div class ="d-flex justify-content-between align-items-start">
             <h2>
               <%= release.data["basic_information"]["title"] %>
