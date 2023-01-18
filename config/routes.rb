@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :releases, only: %i[ index edit] do
     member do
       get :ripped
+      get :rip_later
     end
   end
 

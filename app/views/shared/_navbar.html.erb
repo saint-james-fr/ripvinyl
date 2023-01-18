@@ -1,5 +1,5 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid container">
+  <div class="container-fluid ms-2">
   <% if current_user %>
     <nav>
       <mark>
@@ -13,6 +13,13 @@
       <mark>
         <%= link_to releases_path(ripped: "true") do %>
           <button class="btn btn-white"><i class="fa-solid fa-file"></i> Numérisés
+          </button>
+        <% end %>
+      </mark>
+      <div class="whitey"></div>
+      <mark>
+        <%= link_to releases_path(rip_later?: "true") do %>
+          <button class="btn btn-white"><i class="fa-solid fa-file"></i> To Do
           </button>
         <% end %>
       </mark>

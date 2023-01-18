@@ -19,11 +19,12 @@
               <% end %>
             </div>
           <% end %>
+          <button data-edit-release-target="ripLaterButton" class="cta_rip_later <%= release.rip_later? ? 'rip_later_orange' : "" %>" data-action="click->edit-release#ripLater" data-rip-later=<%= release.rip_later?.to_s %> data-ref=<%= release.id %>><i class="fa-solid fa-clock"></i></button>
           <div class ="d-flex justify-content-between align-items-start">
             <h2>
               <%= release.data["basic_information"]["title"] %>
             </h2>
-            <button class="cta_rip <%= release.ripped? ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped == true ? 'true' : "false" %> data-ref=<%= release.id %>><i class="fa-solid fa-file-waveform"></i></button>
+            <button class="cta_rip <%= release.ripped? ? 'ripped' : "" %>" data-action="click->edit-release#ripped" data-ripped=<%= release.ripped.to_s %> data-ref=<%= release.id %>><i class="fa-solid fa-file-waveform"></i></button>
           </div>
           <h4>
             <% release.data["basic_information"]["artists"].each_with_index do |artist, index| %>

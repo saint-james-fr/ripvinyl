@@ -1,5 +1,5 @@
 class ReleasesController < ApplicationController
-  before_action :set_release, only: %i[edit update ripped]
+  before_action :set_release, only: %i[edit update ripped rip_later]
   before_action :clause_guard_collection, only: %i[index four_to_the_floor]
 
   include DiscogsRequests
@@ -8,6 +8,7 @@ class ReleasesController < ApplicationController
     # filter different params
     @releases = Release.sorted_by_date_added
     @releases = @releases.ripped if params[:ripped] == "true"
+    @releases = @releases.to_rip if params[:rip_later?] == "true"
     @releases = @releases.filtered_by_style(params[:style]) if params[:style].present?
     # paginate
     @releases = @releases.page(params[:page])
@@ -43,6 +44,8 @@ class ReleasesController < ApplicationController
   def ripped
     new_ripped = !@release.ripped
     if @release.update(ripped: new_ripped)
+      # if we rip the release then we remove it from the rip_later list
+      @release.rip_later if new_ripped == true
       wrapper = current_user.authentify_wrapper(current_user.access_token)
       case new_ripped
       when true
@@ -54,6 +57,10 @@ class ReleasesController < ApplicationController
     else
       render :index, status: :unprocessable_entity
     end
+  end
+
+  def rip_later
+    @release.rip_later
   end
 
   private

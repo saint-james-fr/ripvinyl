@@ -6,6 +6,7 @@
 
 .release_card {
   width: 100%;
+  position: relative;
 }
 
 .cover-image {
@@ -90,4 +91,19 @@
 
 .items-row-buttons {
   border-top: 1px solid black
+}
+
+
+.cta_rip_later {
+  font-size: 1.2rem;
+  color: dimgray;
+  border:none;
+  background: transparent;
+  position: absolute;
+  top: 0%;
+  z-index: 9999;
+}
+
+.rip_later_orange {
+  color: orange;
 }
