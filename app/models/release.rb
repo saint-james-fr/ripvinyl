@@ -13,7 +13,7 @@ class Release < ApplicationRecord
   after_create :download_photo
 
   scope :sorted_by_date_added, -> { order('date_added DESC') }
-  scope :to_rip, -> { where(rip_later?: true) }
+  scope :to_rip, -> { where(rip_later?: true, ripped: false) }
 
   self.per_page = 150
 
