@@ -11,8 +11,8 @@ class SaveCollectionJob < ApplicationJob
       ActiveRecord::Base.transaction do
         # Batch processing and bulk insert
         releases.each_slice(100) do |batch_releases|
-          UserRelease.insert_all(batch_releases.map { |release| { user_id: current_user.id, release_id: release["id"] } })
           Release.insert_all(batch_releases.map { |release| { id: release["id"], data: release } })
+          UserRelease.insert_all(batch_releases.map { |release| { user_id: current_user.id, release_id: release["id"] } })
         end
 
         # Collection? => true
