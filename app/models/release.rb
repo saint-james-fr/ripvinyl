@@ -5,7 +5,8 @@ class Release < ApplicationRecord
   include Ripped
 
   validates :data, presence: true
-  belongs_to :user
+  has_many :user_releases, dependent: :destroy
+  has_many :users, through: :user_releases
   has_one_attached :photo
 
   after_create :add_date

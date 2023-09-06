@@ -4,7 +4,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
-  has_many :releases
+  has_many :user_releases, dependent: :destroy
+  has_many :releases, through: :user_releases
 
   # Discogs::Wrapper
 
