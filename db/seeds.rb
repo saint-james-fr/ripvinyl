@@ -8,5 +8,5 @@ puts "Done!"
 puts "----"
 puts "Creating User"
 puts "..."
-User.create!(email: "test@test.com", password: "testtest")
+User.create!(email: "maxencerobinet@gmail.com", password: "password")
 puts "Done!"
