@@ -15,7 +15,7 @@
               <% if release.photo.attached? %>
                 <%= cl_image_tag release.photo.key %>
               <% else %>
-                <%= image_tag release.data["basic_information"]["cover_image"] %>
+                <%= image_tag release.data["basic_information"]["thumb"] %>
               <% end %>
             </div>
           <% end %>

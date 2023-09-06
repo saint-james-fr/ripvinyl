@@ -15,7 +15,7 @@ class Release < ApplicationRecord
   scope :sorted_by_date_added, -> { order('date_added DESC') }
   scope :to_rip, -> { where(rip_later?: true, ripped: false) }
 
-  self.per_page = 150
+  self.per_page = 50
 
   def add_date
     update(date_added: data["date_added"].to_time)
@@ -27,6 +27,6 @@ class Release < ApplicationRecord
 
     url = data["basic_information"]["cover_image"]
     file = URI.open(url)
-    photo.attach(io: file, filename: "#{data["basic_information"]["title"]}.jpg", content_type: 'image/jpg')
+    photo.attach(io: file, filename: "#{data["basic_information"]["title"]}.jpg", content_type: 'image/jpeg')
   end
 end
