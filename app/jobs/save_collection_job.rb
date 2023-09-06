@@ -3,17 +3,27 @@ class SaveCollectionJob < ApplicationJob
 
   def perform(releases, user_id)
     puts '****** STARTS JOB *******'
-    # retrieves user with user_id
+    
+    # Retrieves user with user_id
     current_user = User.find(user_id)
-    # For each release of releases parameter...
-    releases.each do |release|
-      # Create new reference in DB
-      Release.find_or_create_by(id: release["id"], user: current_user) do |item|
-        item.data = release
+
+    # Batch processing and bulk insert
+    releases.each_slice(100) do |batch_releases|
+      Release.insert_all(batch_releases.map { |release| { id: release["id"], user_id: current_user.id, data: release } })
+    end
+    
+    # Use a transaction for data consistency
+    ActiveRecord::Base.transaction do
+      releases.each do |release|
+        Release.find_or_create_by(id: release["id"], user_id: current_user.id) do |item|
+          item.data = release
+        end
       end
     end
-    # collection? => true
+    
+    # Collection? => true
     current_user.save_collection!
+    
     puts '****** JOB DONE *******'
     puts "#{current_user.username} collection saved? == #{current_user.collection?}"
     puts '****** SEE YOU LATER *******'
