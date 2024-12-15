@@ -22,13 +22,21 @@ RUN gem update --system --no-document && \
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
-# Install packages needed to build gems
+# Install packages needed to build gems and node for asset compilation
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential libpq-dev
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    libpq-dev \
+    git \
+    curl \
+    pkg-config \
+    cmake \
+    libssl-dev
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
-RUN bundle install && \
+RUN bundle config set --local without 'development test' && \
+    bundle install --jobs $(nproc) && \
     bundle exec bootsnap precompile --gemfile && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
 
@@ -44,7 +52,10 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl postgresql-client && \
+    apt-get install --no-install-recommends -y \
+    curl \
+    postgresql-client \
+    libpq5 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
