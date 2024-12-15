@@ -59,9 +59,8 @@ RUN bundle config set --local without 'development test' && \
 COPY --from=javascript /app/app/assets ./app/assets
 COPY --from=javascript /app/public ./public
 
-# Precompile bootsnap and assets
-RUN bundle exec bootsnap precompile app/ lib/ && \
-    bundle exec rails assets:precompile
+# Only precompile bootsnap, skip asset precompilation
+RUN bundle exec bootsnap precompile app/ lib/
 
 # Final stage
 FROM base
