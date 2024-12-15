@@ -24,13 +24,12 @@ WORKDIR /app
 # Copy JavaScript-related files
 COPY --link package.json yarn.lock ./
 
-# Install JavaScript dependencies and build assets
-RUN npm install -g yarn && \
-    yarn install --frozen-lockfile
+# Install dependencies using the pre-installed yarn
+RUN yarn install --frozen-lockfile
 
 COPY --link . .
 
-# Build JavaScript assets (adjust this command based on your build script)
+# Build JavaScript assets
 RUN yarn build
 
 # Ruby build stage
