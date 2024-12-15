@@ -33,21 +33,25 @@ RUN apt-get update -qq && \
     cmake \
     libssl-dev \
     nodejs \
-    npm
+    npm && \
+    npm install -g yarn
 
-# Install application gems and foreman
-COPY --link Gemfile Gemfile.lock ./
+# Copy both Gemfile and package.json related files
+COPY --link Gemfile Gemfile.lock package.json yarn.lock ./
+
+# Install both Ruby and JavaScript dependencies
 RUN bundle config set --local without 'development test' && \
     bundle install --jobs $(nproc) && \
     bundle exec bootsnap precompile --gemfile && \
-    gem install foreman && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    yarn install --frozen-lockfile
 
 # Copy application code
 COPY --link . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Precompile bootsnap and assets
+RUN bundle exec bootsnap precompile app/ lib/ && \
+    bundle exec rails assets:precompile
 
 
 # Final stage for app image
