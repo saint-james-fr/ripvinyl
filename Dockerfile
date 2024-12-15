@@ -35,11 +35,12 @@ RUN apt-get update -qq && \
     nodejs \
     npm
 
-# Install application gems
+# Install application gems and foreman
 COPY --link Gemfile Gemfile.lock ./
 RUN bundle config set --local without 'development test' && \
     bundle install --jobs $(nproc) && \
     bundle exec bootsnap precompile --gemfile && \
+    gem install foreman && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
 
 # Copy application code
