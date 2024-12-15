@@ -31,7 +31,9 @@ RUN apt-get update -qq && \
     curl \
     pkg-config \
     cmake \
-    libssl-dev
+    libssl-dev \
+    nodejs \
+    npm
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
@@ -55,7 +57,8 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     curl \
     postgresql-client \
-    libpq5 && \
+    libpq5 \
+    nodejs && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
