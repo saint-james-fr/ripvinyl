@@ -18,3 +18,18 @@ CLOUDINARY_URL=
 ```
 
 Huge thanks to buntine and his Ruby [Discogs API Wrapper](https://github.com/buntine/discog)
+
+## Admin Setup
+
+To create an admin user, run the following rake task:
+
+```bash
+rails admin:create
+```
+
+You will be prompted to enter:
+
+- Admin email address
+- Admin password
+
+The task will create the admin user and confirm successful creation.
