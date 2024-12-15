@@ -11,16 +11,10 @@ You can sort your collection.
 The app uses Redis/Sidekiq for some queues jobs, like fetching HD photos from Discogs Database and storing them in Cloudinary.
 The app uses Cloudinary, so you may need a free account if you wanna use this feature.
 
-``` plain
-
-// .env file
+```bash
 DISCOGS_API_CONSUMER=
 DISCOGS_API_SECRET=
 CLOUDINARY_URL=
-RIPVINYL_DATABASE_PASSWORD=
-RIPVINYL_DATABASE_URL=
-RIPVINYL_DATABASE_USERNAME=
-RIPVINYL_DATABASE_NAME=
 ```
 
 Huge thanks to buntine and his Ruby [Discogs API Wrapper](https://github.com/buntine/discog)
