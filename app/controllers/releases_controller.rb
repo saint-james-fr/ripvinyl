@@ -25,15 +25,35 @@ class ReleasesController < ApplicationController
   def update_collection
     user = User.find(params[:id])
     # Fetch collection from Discogs
+    p "*****"
+    p "****** FETCHING COLLECTION *******"
     fetched_collection = FetchMoreCollectionJob.perform_now(user.id)
+    p "*****"
+    p "****** FETCHING COLLECTION DONE *******"
+    p "*****"
     # Get array of ID from releases already in DB
     release_ids = Release.pluck(:id)
     # 1. get new releases and save them
+    p "*****"
+    p "****** SAVING NEW RELEASES *******"
     save_added_releases(user, fetched_collection, release_ids)
+    p "*****"
+    p "****** SAVING NEW RELEASES DONE *******"
+    p "*****"
     # 2. Get removed releases and delete them
+    p "*****"
+    p "****** GETTING REMOVED RELEASES *******"
     remove_removed_releases(fetched_collection, release_ids)
+    p "*****"
+    p "****** GETTING REMOVED RELEASES DONE *******"
+    p "*****"
     # 3. Update releases in DB from their discogs status
+    p "*****"
+    p "****** UPDATING RELEASES *******"
     update_ripped_releases(fetched_collection, user)
+    p "*****"
+    p "****** UPDATING RELEASES DONE *******"
+    p "*****"
 
     respond_to do |format|
       format.html { redirect_to releases_path }
