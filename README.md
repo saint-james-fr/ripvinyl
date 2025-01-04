@@ -15,6 +15,7 @@ The app uses Cloudinary, so you may need a free account if you wanna use this fe
 DISCOGS_API_CONSUMER=
 DISCOGS_API_SECRET=
 CLOUDINARY_URL=
+
 ```
 
 Huge thanks to buntine and his Ruby [Discogs API Wrapper](https://github.com/buntine/discog)

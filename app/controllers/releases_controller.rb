@@ -13,7 +13,6 @@ class ReleasesController < ApplicationController
     # paginate
     @releases = @releases.page(params[:page])
     @most_collected_styles = Release.most_collected_styles
-
   end
 
   def four_to_the_floor
@@ -28,11 +27,11 @@ class ReleasesController < ApplicationController
     # Fetch collection from Discogs
     fetched_collection = FetchMoreCollectionJob.perform_now(user.id)
     # Get array of ID from releases already in DB
-    ids = Release.where(user: user).pluck(:id)
+    release_ids = Release.pluck(:id)
     # 1. get new releases and save them
-    save_added_releases(user, fetched_collection, ids)
+    save_added_releases(user, fetched_collection, release_ids)
     # 2. Get removed releases and delete them
-    remove_removed_releases(fetched_collection, ids)
+    remove_removed_releases(fetched_collection, release_ids)
     # 3. Update releases in DB from their discogs status
     update_ripped_releases(fetched_collection, user)
 
@@ -49,9 +48,9 @@ class ReleasesController < ApplicationController
       wrapper = current_user.authentify_wrapper(current_user.access_token)
       case new_ripped
       when true
-        @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", {value: 'RIP ok'})
+        @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", { value: "RIP ok" })
       when false
-        @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", {value: ''})
+        @release.ripped_on_discogs!(wrapper, current_user.username, "1", @release.id.to_s, @release.data["instance_id"].to_s, "3", { value: "" })
       end
       redirect_to releases_path
     else
@@ -92,5 +91,4 @@ class ReleasesController < ApplicationController
   def release_params
     params.require(:release).permit(:data, :user_id, :ripped)
   end
-
 end
