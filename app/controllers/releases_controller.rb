@@ -96,7 +96,8 @@ class ReleasesController < ApplicationController
 
   def update_ripped_releases(fetched_collection, user)
     fetched_collection.each do |release|
-      Release.where(user: user).find(release["id"]).update(ripped: true) if ripped_on_discogs_bis?(release)
+      release_record = user.releases.find_by(id: release["id"])
+      release_record&.update(ripped: true) if ripped_on_discogs_bis?(release)
     end
   end
 
